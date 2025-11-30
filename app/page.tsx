@@ -1,338 +1,588 @@
 // app/page.tsx
-import Image from "next/image";
+
+import React from "react";
+
+const COLORS = {
+  bg: "#050712",
+  bgSoft: "#070A12",
+  accent: "#2DD4FF",
+  accentSoft: "#1B3B6F",
+  text: "#F9FAFB",
+  textSoft: "#9CA3AF",
+  border: "#1F2933",
+};
 
 export default function Home() {
   return (
-    <main className="min-h-screen w-full bg-gradient-to-b from-[#02040A] via-[#050816] to-black text-slate-50">
+    <main
+      style={{
+        minHeight: "100vh",
+        background: `radial-gradient(circle at 70% 20%, rgba(45,212,255,0.28), transparent 55%), radial-gradient(circle at 0% 80%, rgba(37,99,235,0.35), transparent 55%), ${COLORS.bg}`,
+        color: COLORS.text,
+        fontFamily: "system-ui, -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif",
+      }}
+    >
       {/* NAVBAR */}
-      <header className="w-full sticky top-0 z-40 bg-gradient-to-b from-black/80 via-black/40 to-transparent backdrop-blur-md border-b border-white/5">
-        <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
-          {/* Left: logo + wordmark */}
-          <div className="flex items-center gap-3">
-            <div className="relative h-8 w-8 overflow-hidden rounded-full bg-cyan-500/10">
-              <Image
-                src="/tghost-avatar.png"
-                alt="TGhosT logo"
-                fill
-                className="object-contain"
-                priority
-              />
+      <header
+        style={{
+          position: "sticky",
+          top: 0,
+          zIndex: 30,
+          backdropFilter: "blur(18px)",
+          background: "linear-gradient(to bottom, rgba(5,7,18,0.82), transparent)",
+          borderBottom: "1px solid rgba(148,163,184,0.15)",
+        }}
+      >
+        <div
+          style={{
+            maxWidth: "1120px",
+            margin: "0 auto",
+            padding: "18px 24px",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+          }}
+        >
+          {/* Logo compacta TG */}
+          <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+            <div
+              style={{
+                width: 32,
+                height: 32,
+                borderRadius: "999px",
+                background:
+                  "radial-gradient(circle at 30% 20%, #38bdf8, #0f172a 70%)",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                fontWeight: 800,
+                letterSpacing: 1,
+                fontSize: 15,
+              }}
+            >
+              TG
             </div>
-            <span className="text-xs font-semibold tracking-[0.32em] text-slate-200">
-              TGHOST
-            </span>
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                lineHeight: 1.1,
+              }}
+            >
+              <span
+                style={{
+                  fontSize: 11,
+                  letterSpacing: 4,
+                  textTransform: "uppercase",
+                  color: COLORS.textSoft,
+                }}
+              >
+                TGHOST™
+              </span>
+              <span
+                style={{
+                  fontSize: 10,
+                  letterSpacing: 2.4,
+                  textTransform: "uppercase",
+                  color: COLORS.textSoft,
+                }}
+              >
+                No fear / No pain / Built for disruptors
+              </span>
+            </div>
           </div>
 
-          {/* Center nav */}
-          <nav className="hidden gap-10 text-[11px] font-semibold tracking-[0.22em] text-slate-300 sm:flex">
-            <a className="nav-item" href="#tghost">
-              TGHOST
-            </a>
-            <a className="nav-item" href="#api">
-              API
-            </a>
-            <a className="nav-item" href="#company">
-              COMPANY
-            </a>
-            <a className="nav-item" href="#news">
-              NEWS
-            </a>
-          </nav>
-
-          {/* Right CTA */}
-          <a
-            href="#console"
-            className="rounded-full border border-cyan-400/60 bg-cyan-500/5 px-4 py-2 text-[11px] font-semibold tracking-[0.22em] text-cyan-300 transition hover:border-cyan-300 hover:bg-cyan-400/10 hover:text-cyan-100"
+          {/* Menu */}
+          <nav
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: 28,
+              fontSize: 11,
+              letterSpacing: 3,
+              textTransform: "uppercase",
+            }}
           >
-            TRY TGHOST
-          </a>
+            {["TGhost", "API", "Company", "News"].map((item) => (
+              <NavItem key={item}>{item}</NavItem>
+            ))}
+
+            <button
+              style={{
+                padding: "8px 18px",
+                borderRadius: 999,
+                border: "1px solid rgba(148,163,184,0.6)",
+                background: "transparent",
+                color: COLORS.text,
+                fontSize: 11,
+                letterSpacing: 2.5,
+                textTransform: "uppercase",
+                cursor: "pointer",
+                transition: "all 160ms ease-out",
+              }}
+              onMouseEnter={(e) => {
+                (e.currentTarget as HTMLButtonElement).style.borderColor =
+                  COLORS.accent;
+                (e.currentTarget as HTMLButtonElement).style.boxShadow =
+                  "0 0 18px rgba(45,212,255,0.38)";
+              }}
+              onMouseLeave={(e) => {
+                (e.currentTarget as HTMLButtonElement).style.borderColor =
+                  "rgba(148,163,184,0.6)";
+                (e.currentTarget as HTMLButtonElement).style.boxShadow = "none";
+              }}
+            >
+              Try TGhost
+            </button>
+          </nav>
         </div>
       </header>
 
       {/* HERO */}
       <section
-        id="tghost"
-        className="relative flex min-h-[90vh] w-full items-center justify-center overflow-hidden"
+        style={{
+          maxWidth: "1120px",
+          margin: "0 auto",
+          padding: "72px 24px 80px",
+          display: "grid",
+          gridTemplateColumns: "minmax(0, 1.2fr) minmax(0, 1fr)",
+          gap: 32,
+          alignItems: "center",
+        }}
       >
-        {/* smoky background */}
-        <div
-          className="pointer-events-none absolute inset-0 opacity-80"
-          style={{
-            backgroundImage:
-              "radial-gradient(circle at 0% 30%, rgba(44,196,255,0.4), transparent 55%), radial-gradient(circle at 80% 20%, rgba(0,212,255,0.45), transparent 60%), radial-gradient(circle at 50% 100%, rgba(0,0,0,0.9), #02040A 70%)",
-          }}
-        />
-
-        {/* subtle noise overlay */}
-        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle,rgba(255,255,255,0.08)_0,transparent_60%)] mix-blend-soft-light opacity-40" />
-
-        <div className="relative z-10 mx-auto flex w-full max-w-5xl flex-col items-center gap-10 px-6 py-20 text-center">
-          {/* big ghost logo */}
-          <div className="relative h-40 w-40 sm:h-56 sm:w-56 mb-4">
-            <Image
-              src="/tghost-hero.png"
-              alt="TGhosT"
-              fill
-              className="object-contain drop-shadow-[0_0_40px_rgba(44,196,255,0.7)]"
-              priority
-            />
-          </div>
-
-          {/* tagline under logo (só inglês pra ficar clean) */}
-          <p className="text-[11px] font-semibold tracking-[0.32em] text-cyan-200/80 uppercase">
-            NO FEAR. NO PAIN. BUILT FOR DISRUPTORS.
+        {/* Texto + console */}
+        <div>
+          <p
+            style={{
+              fontSize: 12,
+              letterSpacing: 5,
+              textTransform: "uppercase",
+              color: COLORS.textSoft,
+              marginBottom: 18,
+            }}
+          >
+            TGHOST.AI · PRIVATE ALPHA
           </p>
 
-          <h1 className="text-balance text-3xl sm:text-5xl md:text-6xl font-semibold tracking-tight">
-            WHAT DO YOU WANT TO{" "}
-            <span className="text-cyan-300">DISRUPT?</span>
+          <h1
+            style={{
+              fontSize: 42,
+              lineHeight: 1.1,
+              textTransform: "uppercase",
+              marginBottom: 16,
+            }}
+          >
+            What do you want to{" "}
+            <span style={{ color: COLORS.accent }}>disrupt?</span>
           </h1>
 
-          <p className="max-w-2xl text-sm sm:text-base text-slate-300">
+          <p
+            style={{
+              fontSize: 14,
+              color: COLORS.textSoft,
+              maxWidth: 520,
+              marginBottom: 28,
+            }}
+          >
             TGhosT™ é o agente multimodal da RunAI Systems — projetado para quem
             opera no limite: voz, texto, dados, arquivos, automação de funções
             e cultura local em uma única camada inteligente.
           </p>
 
-          {/* console fake input */}
+          {/* “Console” de prompt */}
           <div
-            id="console"
-            className="mt-4 w-full max-w-3xl rounded-[26px] border border-cyan-400/40 bg-black/60 px-5 py-4 text-left shadow-[0_0_50px_rgba(0,0,0,0.6)] backdrop-blur"
+            style={{
+              borderRadius: 18,
+              padding: 18,
+              background:
+                "radial-gradient(circle at 0% 0%, rgba(45,212,255,0.25), transparent 55%), rgba(15,23,42,0.95)",
+              border: "1px solid rgba(148,163,184,0.4)",
+              boxShadow: "0 18px 55px rgba(15,23,42,0.85)",
+              marginBottom: 18,
+            }}
           >
-            <div className="mb-1 flex items-center justify-between text-[10px] uppercase tracking-[0.28em] text-slate-400">
+            <div
+              style={{
+                fontSize: 11,
+                letterSpacing: 3,
+                textTransform: "uppercase",
+                color: COLORS.textSoft,
+                marginBottom: 10,
+                display: "flex",
+                justifyContent: "space-between",
+              }}
+            >
               <span>tghost@alpha-node · console</span>
-              <span className="text-cyan-300/80">WXM-9271 · ALPHA-16</span>
+              <span>Alpha WXM-9271</span>
             </div>
-            <div className="mt-2 flex items-center justify-between gap-3 rounded-2xl bg-gradient-to-r from-slate-900/90 via-slate-900/60 to-cyan-900/40 px-4 py-3">
-              <span className="text-xs text-slate-300">
-                Type any mission. TGhosT handles the chaos.
-              </span>
-              <button className="rounded-full bg-cyan-500 px-4 py-2 text-[11px] font-semibold tracking-[0.18em] text-black hover:bg-cyan-400">
-                LAUNCH
+
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: 10,
+                backgroundColor: "#020617",
+                borderRadius: 999,
+                padding: "10px 12px 10px 16px",
+                border: "1px solid rgba(51,65,85,0.9)",
+              }}
+            >
+              <span
+                style={{
+                  width: 6,
+                  height: 6,
+                  borderRadius: 999,
+                  background: "#22c55e",
+                  boxShadow: "0 0 6px rgba(34,197,94,0.7)",
+                }}
+              />
+              <input
+                placeholder="Type any mission. TGhosT handles the chaos."
+                style={{
+                  flex: 1,
+                  border: "none",
+                  outline: "none",
+                  background: "transparent",
+                  color: COLORS.text,
+                  fontSize: 13,
+                }}
+              />
+              <button
+                style={{
+                  borderRadius: 999,
+                  padding: "8px 18px",
+                  border: "none",
+                  cursor: "pointer",
+                  fontSize: 12,
+                  fontWeight: 500,
+                  color: "#020617",
+                  background:
+                    "linear-gradient(135deg, #2DD4FF 0%, #38bdf8 40%, #22c55e 100%)",
+                  boxShadow: "0 0 18px rgba(45,212,255,0.7)",
+                }}
+              >
+                Launch
               </button>
             </div>
           </div>
-        </div>
-      </section>
 
-      {/* UNDERSTAND THE UNIVERSE SECTION */}
-      <section
-        aria-label="Universe"
-        className="relative w-full border-t border-white/5 bg-gradient-to-b from-black via-[#050716] to-black py-24"
-      >
-        <div className="relative mx-auto flex w-full max-w-5xl flex-col gap-16 px-6">
-          {/* background network */}
-          <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
-            <div className="h-80 w-80 sm:h-[22rem] sm:w-[22rem] rounded-full bg-[radial-gradient(circle,rgba(44,196,255,0.55)_0,transparent_65%)] opacity-40 blur-3xl" />
-          </div>
-
-          {/* texts deslocados */}
-          <div className="relative flex min-h-[220px] flex-col justify-between">
-            <h2 className="text-3xl sm:text-4xl font-semibold tracking-tight text-slate-50 self-start">
-              Understand
-            </h2>
-            <h2 className="text-3xl sm:text-4xl font-semibold tracking-tight text-slate-50 self-end">
-              The Universe
-            </h2>
-
-            {/* ponto central com “nodes” */}
-            <div className="pointer-events-none absolute left-1/2 top-1/2 h-40 w-40 -translate-x-1/2 -translate-y-1/2">
-              <div className="h-full w-full rounded-full border border-cyan-400/40 bg-cyan-500/5 shadow-[0_0_30px_rgba(44,196,255,0.4)]" />
-              <div className="absolute inset-6 grid grid-cols-4 gap-2">
-                {Array.from({ length: 16 }).map((_, i) => (
-                  <div
-                    key={i}
-                    className="h-1.5 w-1.5 rounded-sm bg-cyan-300/80 animate-pulse"
-                    style={{ animationDelay: `${i * 80}ms` }}
-                  />
-                ))}
-              </div>
-            </div>
-          </div>
-
-          {/* perguntas em “bolhas” */}
-          <div className="relative grid gap-3 text-xs sm:text-sm text-slate-200 md:grid-cols-2">
-            {[
-              "What’s your next disruption?",
-              "Can one ghost protect a whole stack?",
-              "Do your systems really talk to each other?",
-              "How far can voice + data go?",
-              "What happens when compliance meets chaos?",
-              "Is your company ready for multimodal ops?",
-            ].map((q) => (
-              <div
-                key={q}
-                className="rounded-full border border-cyan-400/25 bg-slate-950/70 px-4 py-2 shadow-[0_0_18px_rgba(15,23,42,0.9)]"
-              >
-                {q}
-              </div>
-            ))}
-          </div>
-
-          <p className="relative max-w-3xl text-xs sm:text-sm text-slate-400">
-            TGhosT foi criado para CEOs, engenheiros, analistas e creators que
-            precisam transformar perguntas difíceis em movimento real — sem
-            perder segurança, rastreabilidade e contexto cultural.
+          <p
+            style={{
+              fontSize: 11,
+              color: COLORS.textSoft,
+              maxWidth: 480,
+            }}
+          >
+            A versão alpha é privada e protegida por senha. Se você recebeu
+            acesso direto do fundador, pode testar automações reais usando a API
+            da OpenAI dentro do ecossistema RunAI Systems.
           </p>
         </div>
+
+        {/* Ghost hero ilustrativo */}
+        <div
+          style={{
+            position: "relative",
+            height: 320,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          {/* Círculo de glow */}
+          <div
+            style={{
+              position: "absolute",
+              inset: "18%",
+              borderRadius: "999px",
+              background:
+                "radial-gradient(circle at 30% 20%, rgba(56,189,248,0.8), transparent 65%)",
+              filter: "blur(26px)",
+              opacity: 0.65,
+            }}
+          />
+          {/* Placeholder do ghost – aqui você pode trocar por <Image /> */}
+          <div
+            style={{
+              width: 220,
+              height: 220,
+              borderRadius: "999px",
+              background:
+                "radial-gradient(circle at 30% 20%, #38bdf8, #020617 70%)",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              fontSize: 26,
+              fontWeight: 700,
+              letterSpacing: 4,
+              textTransform: "uppercase",
+              border: "2px solid rgba(148,163,184,0.5)",
+              boxShadow:
+                "0 0 65px rgba(56,189,248,0.85), 0 0 130px rgba(15,23,42,1)",
+            }}
+          >
+            GHO ST
+          </div>
+        </div>
       </section>
 
-      {/* GLOBAL NODES SECTION (fantasminhas com bandeiras) */}
-      <section className="w-full border-t border-white/5 bg-black py-20">
-        <div className="mx-auto flex w-full max-w-5xl flex-col gap-10 px-6">
-          <div className="flex flex-col gap-2">
-            <p className="text-[11px] font-semibold tracking-[0.32em] text-cyan-300/70 uppercase">
-              TGHOST NODES
-            </p>
-            <h3 className="text-2xl sm:text-3xl font-semibold">
-              Born global. Tuned to your culture.
-            </h3>
-            <p className="max-w-2xl text-sm text-slate-300">
-              Cada node TGhosT roda sobre a mesma inteligência base, mas fala a
-              língua, o sotaque e o contexto do lugar onde está plugado.
+      {/* QUESTIONS SECTION – “Understand / The Universe” */}
+      <section
+        style={{
+          maxWidth: "1120px",
+          margin: "0 auto",
+          padding: "24px 24px 80px",
+        }}
+      >
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "minmax(0, 1.2fr) minmax(0, 1fr)",
+            gap: 28,
+            alignItems: "flex-start",
+          }}
+        >
+          <div>
+            <h2
+              style={{
+                fontSize: 30,
+                marginBottom: 6,
+              }}
+            >
+              Understand
+            </h2>
+            <h2
+              style={{
+                fontSize: 30,
+                color: COLORS.accent,
+                marginBottom: 20,
+              }}
+            >
+              The Universe
+            </h2>
+            <p
+              style={{
+                fontSize: 13,
+                color: COLORS.textSoft,
+                maxWidth: 420,
+              }}
+            >
+              TGhosT foi criado para CEOs, engenheiros, analistas e creators
+              que precisam transformar perguntas difíceis em movimento real —
+              sem perder segurança, rastreabilidade e contexto cultural.
             </p>
           </div>
 
-          <div className="grid gap-6 md:grid-cols-3">
-            {[
-              {
-                country: "United States",
-                tag: "US Alpha Node",
-                desc: "Baixa latência com a OpenAI e backbone para integrações globais.",
-                img: "/ghost-us.png",
-              },
-              {
-                country: "Brazil",
-                tag: "LATAM Node",
-                desc: "Primeiro stack multimodal desenhado para operações em português.",
-                img: "/ghost-br.png",
-              },
-              {
-                country: "Ireland",
-                tag: "EU Node",
-                desc: "Ponto estratégico para expansão regulatória e compliance europeu.",
-                img: "/ghost-ie.png",
-              },
-            ].map((node) => (
-              <div
-                key={node.country}
-                className="group flex flex-col gap-3 rounded-2xl border border-white/8 bg-gradient-to-b from-slate-900/80 via-slate-950 to-black p-4 shadow-[0_0_30px_rgba(0,0,0,0.7)] transition hover:border-cyan-400/60 hover:shadow-[0_0_40px_rgba(44,196,255,0.6)]"
-              >
-                <div className="flex items-center gap-3">
-                  <div className="relative h-10 w-10 overflow-hidden rounded-full bg-cyan-500/10">
-                    <Image
-                      src={node.img}
-                      alt={node.country}
-                      fill
-                      className="object-contain"
-                    />
-                  </div>
-                  <div className="flex flex-col">
-                    <span className="text-[11px] font-semibold tracking-[0.22em] text-cyan-300/80 uppercase">
-                      {node.tag}
-                    </span>
-                    <span className="text-sm font-medium text-slate-100">
-                      {node.country}
-                    </span>
-                  </div>
-                </div>
-                <p className="text-xs text-slate-300">{node.desc}</p>
-              </div>
-            ))}
+          <div
+            style={{
+              borderRadius: 24,
+              padding: 22,
+              border: `1px solid ${COLORS.border}`,
+              background:
+                "radial-gradient(circle at 0% 0%, rgba(45,212,255,0.2), transparent 55%), rgba(15,23,42,0.9)",
+            }}
+          >
+            <div
+              style={{
+                display: "grid",
+                gap: 10,
+              }}
+            >
+              {[
+                "What’s your next disruption?",
+                "Do your systems really talk to each other?",
+                "What happens when compliance meets chaos?",
+                "Can one ghost protect a whole stack?",
+                "How far can voice + data go?",
+                "Is your company ready for multimodal ops?",
+              ].map((q) => (
+                <Bubble key={q}>{q}</Bubble>
+              ))}
+            </div>
           </div>
+        </div>
+      </section>
+
+      {/* NODES SECTION */}
+      <section
+        style={{
+          maxWidth: "1120px",
+          margin: "0 auto",
+          padding: "0 24px 80px",
+        }}
+      >
+        <p
+          style={{
+            fontSize: 12,
+            letterSpacing: 4,
+            textTransform: "uppercase",
+            color: COLORS.textSoft,
+            marginBottom: 16,
+          }}
+        >
+          TGhost Nodes
+        </p>
+        <h3
+          style={{
+            fontSize: 24,
+            marginBottom: 8,
+          }}
+        >
+          Born global. Tuned to your culture.
+        </h3>
+        <p
+          style={{
+            fontSize: 13,
+            color: COLORS.textSoft,
+            maxWidth: 520,
+            marginBottom: 24,
+          }}
+        >
+          Cada node TGhosT roda sobre a mesma inteligência base, mas fala a
+          língua, sente o humor e entende o contexto do lugar onde está
+          plugado.
+        </p>
+
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))",
+            gap: 20,
+          }}
+        >
+          <NodeCard
+            tag="US ALPHA NODE"
+            country="United States"
+            desc="Baixa latência com a OpenAI e backbone para integrações globais."
+          />
+          <NodeCard
+            tag="LATAM NODE"
+            country="Brazil"
+            desc="Primeiro stack multimodal desenhado para operações em português."
+          />
+          <NodeCard
+            tag="EU NODE"
+            country="Ireland"
+            desc="Ponto estratégico para expansão regulatória e compliance europeia."
+          />
+        </div>
+      </section>
+
+      {/* NEWS + FOOTER */}
+      <section
+        style={{
+          maxWidth: "1120px",
+          margin: "0 auto",
+          padding: "0 24px 40px",
+        }}
+      >
+        <p
+          style={{
+            fontSize: 12,
+            letterSpacing: 4,
+            textTransform: "uppercase",
+            color: COLORS.textSoft,
+            marginBottom: 16,
+          }}
+        >
+          Latest News
+        </p>
+
+        <div
+          style={{
+            borderRadius: 18,
+            border: `1px solid ${COLORS.border}`,
+            backgroundColor: COLORS.bgSoft,
+            overflow: "hidden",
+            marginBottom: 40,
+          }}
+        >
+          <NewsItem
+            date="November 30, 2025"
+            tag="API"
+            title="TGhosT private beta powered by OpenAI"
+            desc="Primeira versão beta privada do TGhosT™ integrada à API da OpenAI, com foco em automação segura para early adopters."
+          />
+          <NewsItem
+            date="December 15, 2025"
+            tag="Infra"
+            title="RunAI Systems expands TGhosT nodes"
+            desc="Novos nós de execução e segurança em múltiplas regiões para reduzir latência e aumentar a resiliência do ecossistema."
+          />
         </div>
       </section>
 
       {/* FOOTER */}
       <footer
-        id="news"
-        className="w-full border-t border-white/5 bg-gradient-to-t from-[#111827] via-[#020617] to-black py-14"
+        style={{
+          borderTop: "1px solid rgba(148,163,184,0.16)",
+          background:
+            "radial-gradient(circle at 10% 0%, rgba(45,212,255,0.18), transparent 55%), radial-gradient(circle at 90% 100%, rgba(250,204,21,0.18), transparent 60%), #020617",
+          marginTop: 10,
+        }}
       >
-        <div className="mx-auto flex w-full max-w-5xl flex-col gap-10 px-6 text-sm">
-          {/* News cards placeholder */}
-          <div className="space-y-4">
-            <p className="text-[11px] font-semibold tracking-[0.28em] text-slate-400 uppercase">
-              Latest news
-            </p>
-            <div className="space-y-3">
-              <article className="flex flex-col gap-1 rounded-2xl border border-white/10 bg-black/50 px-4 py-3">
-                <div className="flex items-center justify-between text-[11px] text-slate-400">
-                  <span>NOVEMBER 30, 2025</span>
-                  <span className="rounded-full border border-cyan-400/40 px-2 py-0.5 text-[10px] uppercase tracking-[0.2em] text-cyan-300">
-                    API
-                  </span>
-                </div>
-                <h4 className="text-sm font-semibold text-slate-50">
-                  TGhosT private beta powered by OpenAI
-                </h4>
-                <p className="text-xs text-slate-300">
-                  Primeira versão beta privada do TGhosT™ integrada à API da
-                  OpenAI, com foco em automação segura para early adopters.
-                </p>
-              </article>
-            </div>
+        <div
+          style={{
+            maxWidth: "1120px",
+            margin: "0 auto",
+            padding: "32px 24px 20px",
+          }}
+        >
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(4, minmax(0, 1fr))",
+              gap: 32,
+              fontSize: 13,
+            }}
+          >
+            <FooterColumn title="Try TGhost on">
+              <FooterLink>Web (tghost.ai)</FooterLink>
+              <FooterLink>Mobile (soon)</FooterLink>
+              <FooterLink>Desktop console (alpha)</FooterLink>
+            </FooterColumn>
+
+            <FooterColumn title="Products">
+              <FooterLink>TGhosT™</FooterLink>
+              <FooterLink>RunIDzeroTRUST™</FooterLink>
+              <FooterLink>vNEXX™ (VENNON DISRUPT)</FooterLink>
+              <FooterLink>RunsBI™</FooterLink>
+              <FooterLink>dSOCIALBEAST™</FooterLink>
+            </FooterColumn>
+
+            <FooterColumn title="Company">
+              <FooterLink>RunAI Systems LLC</FooterLink>
+              <FooterLink>Careers (soon)</FooterLink>
+              <FooterLink>Contact: hello@runaisystems.com</FooterLink>
+              <FooterLink>News</FooterLink>
+            </FooterColumn>
+
+            <FooterColumn title="Resources">
+              <FooterLink>Documentation (soon)</FooterLink>
+              <FooterLink>Privacy Policy</FooterLink>
+              <FooterLink>Security &amp; Safety</FooterLink>
+              <FooterLink>Legal &amp; Status</FooterLink>
+            </FooterColumn>
           </div>
 
-          {/* columns like Grok */}
-          <div className="grid gap-10 border-t border-white/10 pt-10 text-xs md:grid-cols-4">
-            <div>
-              <h5 className="mb-3 text-[11px] font-semibold tracking-[0.25em] text-slate-400 uppercase">
-                Try TGhosT on
-              </h5>
-              <ul className="space-y-1 text-slate-200">
-                <li>Web (tghost.ai)</li>
-                <li>Mobile (soon)</li>
-                <li>Desktop console (alpha)</li>
-              </ul>
-            </div>
-
-            <div>
-              <h5 className="mb-3 text-[11px] font-semibold tracking-[0.25em] text-slate-400 uppercase">
-                Products
-              </h5>
-              <ul className="space-y-1 text-slate-200">
-                <li>TGhosT™</li>
-                <li>RunIDzeroTRUST™</li>
-                <li>vNEXX™ (VENNON DISRUPT)</li>
-                <li>RunsBI™</li>
-                <li>dSOCIALBEAST™</li>
-              </ul>
-            </div>
-
-            <div id="company">
-              <h5 className="mb-3 text-[11px] font-semibold tracking-[0.25em] text-slate-400 uppercase">
-                Company
-              </h5>
-              <ul className="space-y-1 text-slate-200">
-                <li>RunAI Systems LLC</li>
-                <li>Careers (soon)</li>
-                <li>Contact: hello@runaisystems.com</li>
-                <li>News</li>
-              </ul>
-            </div>
-
-            <div>
-              <h5 className="mb-3 text-[11px] font-semibold tracking-[0.25em] text-slate-400 uppercase">
-                Resources
-              </h5>
-              <ul className="space-y-1 text-slate-200">
-                <li>Documentation (soon)</li>
-                <li>Privacy Policy</li>
-                <li>Security &amp; Safety</li>
-                <li>Legal &amp; Status</li>
-              </ul>
-            </div>
-          </div>
-
-          <div className="flex flex-col gap-1 border-t border-white/10 pt-6 text-[11px] text-slate-500 sm:flex-row sm:items-center sm:justify-between">
+          <div
+            style={{
+              marginTop: 26,
+              paddingTop: 18,
+              borderTop: "1px solid rgba(15,23,42,0.9)",
+              display: "flex",
+              flexDirection: "column",
+              gap: 6,
+              fontSize: 11,
+              color: COLORS.textSoft,
+            }}
+          >
             <span>
               © 2025 RunAI Systems LLC · TGhosT™ Alpha WXM-9271. All rights
               reserved.
             </span>
-            <span>
-              Powered by OpenAI · Deployed on Vercel · Secured by GitHub
-              workflows
-            </span>
+            <span>Inspired by Kawai. Built by Wesley S. Macedo.</span>
+            <span>Powered by OpenAI · Deployed on Vercel · Secured by GitHub.</span>
           </div>
         </div>
       </footer>
@@ -340,14 +590,247 @@ export default function Home() {
   );
 }
 
-// small CSS helpers (use in globals.css or tailwind @layer if quiser):
-// .nav-item {
-//   @apply relative cursor-pointer transition text-slate-300 hover:text-slate-50;
-// }
-// .nav-item::after {
-//   content: "";
-//   @apply pointer-events-none absolute -bottom-1 left-0 h-px w-0 bg-slate-100 transition-all duration-200;
-// }
-// .nav-item:hover::after {
-//   @apply w-full;
-// }
+/* ---------- Subcomponentes simples ---------- */
+
+function NavItem({ children }: { children: React.ReactNode }) {
+  const base: React.CSSProperties = {
+    position: "relative",
+    cursor: "pointer",
+  };
+
+  return (
+    <span
+      style={base}
+      onMouseEnter={(e) => {
+        const el = e.currentTarget as HTMLSpanElement;
+        el.style.color = COLORS.accent;
+        (el as any)._underline &&
+          ((el as any)._underline.style.opacity = "1");
+      }}
+      onMouseLeave={(e) => {
+        const el = e.currentTarget as HTMLSpanElement;
+        el.style.color = COLORS.text as string;
+        (el as any)._underline &&
+          ((el as any)._underline.style.opacity = "0");
+      }}
+      ref={(el) => {
+        if (!el) return;
+        if ((el as any)._underline) return;
+        const underline = document.createElement("span");
+        underline.style.position = "absolute";
+        underline.style.left = "0";
+        underline.style.bottom = "-6px";
+        underline.style.width = "100%";
+        underline.style.height = "2px";
+        underline.style.borderRadius = "999px";
+        underline.style.backgroundColor = "#e5e7eb";
+        underline.style.opacity = "0";
+        underline.style.transition = "opacity 160ms ease-out";
+        (el as any)._underline = underline;
+        el.appendChild(underline);
+      }}
+    >
+      {children}
+    </span>
+  );
+}
+
+function Bubble({ children }: { children: React.ReactNode }) {
+  return (
+    <div
+      style={{
+        borderRadius: 999,
+        padding: "8px 14px",
+        border: "1px solid rgba(148,163,184,0.4)",
+        background:
+          "linear-gradient(to right, rgba(15,23,42,0.95), rgba(15,23,42,0.7))",
+        fontSize: 12,
+        color: COLORS.textSoft,
+        display: "flex",
+        justifyContent: "space-between",
+        alignItems: "center",
+        gap: 12,
+      }}
+    >
+      <span>{children}</span>
+      <span
+        style={{
+          width: 6,
+          height: 6,
+          borderRadius: 999,
+          backgroundColor: COLORS.accent,
+        }}
+      />
+    </div>
+  );
+}
+
+function NodeCard({
+  tag,
+  country,
+  desc,
+}: {
+  tag: string;
+  country: string;
+  desc: string;
+}) {
+  return (
+    <div
+      style={{
+        borderRadius: 20,
+        padding: 18,
+        border: `1px solid ${COLORS.border}`,
+        background:
+          "radial-gradient(circle at 0% 0%, rgba(45,212,255,0.18), transparent 60%), rgba(15,23,42,0.96)",
+        boxShadow: "0 18px 40px rgba(15,23,42,0.95)",
+      }}
+    >
+      <p
+        style={{
+          fontSize: 11,
+          letterSpacing: 3,
+          textTransform: "uppercase",
+          color: COLORS.textSoft,
+          marginBottom: 8,
+        }}
+      >
+        {tag}
+      </p>
+      <p
+        style={{
+          fontSize: 15,
+          marginBottom: 6,
+        }}
+      >
+        {country}
+      </p>
+      <p
+        style={{
+          fontSize: 12,
+          color: COLORS.textSoft,
+        }}
+      >
+        {desc}
+      </p>
+    </div>
+  );
+}
+
+function NewsItem({
+  date,
+  tag,
+  title,
+  desc,
+}: {
+  date: string;
+  tag: string;
+  title: string;
+  desc: string;
+}) {
+  return (
+    <div
+      style={{
+        padding: "16px 18px",
+        borderBottom: `1px solid rgba(15,23,42,0.9)`,
+        display: "flex",
+        justifyContent: "space-between",
+        gap: 18,
+      }}
+    >
+      <div>
+        <p
+          style={{
+            fontSize: 11,
+            letterSpacing: 2,
+            textTransform: "uppercase",
+            color: COLORS.textSoft,
+            marginBottom: 4,
+          }}
+        >
+          {date}
+        </p>
+        <h4
+          style={{
+            fontSize: 15,
+            marginBottom: 4,
+          }}
+        >
+          {title}
+        </h4>
+        <p
+          style={{
+            fontSize: 12,
+            color: COLORS.textSoft,
+            maxWidth: 520,
+          }}
+        >
+          {desc}
+        </p>
+      </div>
+      <div
+        style={{
+          alignSelf: "flex-start",
+          fontSize: 11,
+          letterSpacing: 3,
+          textTransform: "uppercase",
+          borderRadius: 999,
+          border: "1px solid rgba(148,163,184,0.5)",
+          padding: "4px 12px",
+          color: COLORS.textSoft,
+        }}
+      >
+        {tag}
+      </div>
+    </div>
+  );
+}
+
+function FooterColumn({
+  title,
+  children,
+}: {
+  title: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <div>
+      <p
+        style={{
+          fontSize: 12,
+          letterSpacing: 3,
+          textTransform: "uppercase",
+          color: COLORS.textSoft,
+          marginBottom: 10,
+        }}
+      >
+        {title}
+      </p>
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          gap: 6,
+        }}
+      >
+        {children}
+      </div>
+    </div>
+  );
+}
+
+function FooterLink({ children }: { children: React.ReactNode }) {
+  return (
+    <span
+      style={{
+        fontSize: 13,
+        color: COLORS.text,
+        cursor: "pointer",
+        opacity: 0.85,
+      }}
+      onMouseEnter={(e) => ((e.currentTarget.style.opacity = "1"))}
+      onMouseLeave={(e) => ((e.currentTarget.style.opacity = "0.85"))}
+    >
+      {children}
+    </span>
+  );
+}
